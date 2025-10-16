@@ -1,4 +1,4 @@
-package es.uab.tqs.memory;
+package es.uab.tqs.memory.model;
 
 public class Card {
     private String value;
@@ -6,6 +6,12 @@ public class Card {
     private boolean isMatched;
 
     public Card(String value) {
+        if (value == null) {
+            throw new IllegalArgumentException("El valor de la carta no pot ser null");
+        }
+        if (value.isEmpty()) {
+            throw new IllegalArgumentException("El valor de la carta no pot ser buit");
+        }
         this.value = value;
         this.isFaceUp = false;
         this.isMatched = false;
@@ -20,6 +26,7 @@ public class Card {
     }
 
     public void flip() {
+        isFaceUp = !isFaceUp;
     }
 
     public boolean isMatched() {

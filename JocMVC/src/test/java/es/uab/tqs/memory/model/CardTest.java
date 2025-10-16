@@ -1,5 +1,6 @@
-package es.uab.tqs.memory;
+package es.uab.tqs.memory.model;
 
+import es.uab.tqs.memory.model.Card;
 import junit.framework.TestCase;
 
 public class CardTest extends TestCase {
@@ -13,15 +14,15 @@ public class CardTest extends TestCase {
     public void testInvalidValue() {
         try {
             Card card = new Card(null);
-            fail("Hauria de llançar una excepció quan el valor és null.")
-        } catch(IllegalArgumentException e) {
+            fail("Hauria de llançar una excepció quan el valor és null.");
+        } catch (IllegalArgumentException e) {
             assertEquals("El valor de la carta no pot ser null", e.getMessage());
         }
 
         try {
             Card card = new Card("");
             fail("Hauria de llançar una excepció quan el valor és buit.");
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             assertEquals("El valor de la carta no pot ser buit", e.getMessage());
         }
     }
