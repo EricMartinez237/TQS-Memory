@@ -35,4 +35,17 @@ public class BoardTest extends TestCase {
         Card expected = board.getCards()[1][0];
         assertEquals("getCards hauria de retornar la mateixa carta", expected, board.getCard(1, 0));
     }
+
+    public void testCheckPairMarksCardsIfMatched() {
+        Board board = new Board(4, 4);
+
+        boolean result = board.checkPair(0, 0, 0, 1);
+        assertFalse(result);
+    }
+
+    public void testIsGameOver() {
+        Board board = new Board(4, 4);
+
+        assertFalse(board.isGameOver());
+    }
 }

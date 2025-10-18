@@ -24,4 +24,13 @@ public class Board {
     public Card getCard(int row, int col) {
         return cards[row][col];
     }
+
+    public boolean checkPair(int row1, int col1, int row2, int col2) {
+        return false;
+    }
+
+    public boolean isGameOver() {
+        return false;
+    }
+
 }
