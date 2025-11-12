@@ -1,6 +1,8 @@
 package es.uab.tqs.memory.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -121,4 +123,38 @@ public class BoardTest extends TestCase {
         assertEquals(initialState, c.isFaceUp());
     }
 
+    public void testCheckPair() {
+        Card c1 = new Card("A");
+        Card c2 = new Card("A");
+        Card c3 = new Card("B");
+
+        Board board = new Board(2, 2);
+
+        assertFalse(c1.isMatched());
+        assertFalse(c2.isMatched());
+
+        boolean result = board.checkPair(c1, c2);
+        assertTrue(result);
+        assertTrue(c1.isMatched());
+        assertTrue(c2.isMatched());
+
+        assertFalse(board.checkPair(c1, c3));
+    }
+
+    public void testIsComplete() {
+        Card c1 = new Card("A");
+        Card c2 = new Card("A");
+        Card c3 = new Card("B");
+        Card c4 = new Card("B");
+
+        Board board = new Board(2, 2);
+
+        assertFalse(board.isComplete());
+
+        board.checkPair(c1, c2);
+        assertFalse(board.isComplete());
+
+        board.checkPair(c3, c4);
+        assertTrue(board.isComplete());
+    }
 }

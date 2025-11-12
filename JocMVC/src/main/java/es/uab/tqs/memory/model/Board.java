@@ -35,6 +35,8 @@ public class Board {
             temp.add(new Card(value));
         }
 
+        Collections.shuffle(temp);
+
         int k = 0;
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
@@ -75,5 +77,13 @@ public class Board {
     public void flipCard(int row, int col) {
         Card c = getCardAt(row, col);
         c.flip();
+    }
+
+    public boolean checkPair(Card c1, Card c2) {
+        return false;
+    }
+
+    public boolean isComplete() {
+        return false;
     }
 }
