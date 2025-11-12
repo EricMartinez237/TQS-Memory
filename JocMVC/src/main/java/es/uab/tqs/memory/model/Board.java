@@ -1,6 +1,8 @@
 package es.uab.tqs.memory.model;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Board {
     private int rows;
@@ -8,13 +10,37 @@ public class Board {
     private Card[][] cards;
 
     public Board(int rows, int cols) {
+        validateDimensions(rows, cols);
+        this.rows = rows;
+        this.cols = cols;
+        // Inicialitzar matriu de cartes
+        this.cards = new Card[rows][cols];
+        initializeCards();
+    }
+
+    private void validateDimensions(int rows, int cols) {
         if (rows <= 0 || cols <= 0 || (rows * cols) % 2 != 0) {
             throw new IllegalArgumentException(
                     "Les dimensions han de ser positives i el número total de cartes parell.");
         }
+    }
 
-        this.rows = rows;
-        this.cols = cols;
+    private void initializeCards() {
+        // Crear parelles de cartes amb valors duplicats
+        int totalPairs = (rows * cols) / 2;
+        List<Card> temp = new ArrayList<>();
+        for (int i = 1; i <= totalPairs; i++) {
+            String value = String.valueOf(i);
+            temp.add(new Card(value));
+            temp.add(new Card(value));
+        }
+
+        int k = 0;
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                cards[r][c] = temp.get(k++);
+            }
+        }
     }
 
     public int getRows() {
@@ -30,14 +56,24 @@ public class Board {
     }
 
     public List<Card> getCards() {
-        return null;
+        List<Card> allCards = new ArrayList<>();
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                allCards.add(cards[r][c]);
+            }
+        }
+        return allCards;
     }
 
     public Card getCardAt(int row, int col) {
-        return null;
+        if (row < 0 || row >= rows || col < 0 || col >= cols) {
+            throw new IndexOutOfBoundsException("Fila o columna fora de rang");
+        }
+        return cards[row][col];
     }
 
     public void flipCard(int row, int col) {
-
+        Card c = getCardAt(row, col);
+        c.flip();
     }
 }
