@@ -1,5 +1,8 @@
 package es.uab.tqs.memory.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.TestCase;
 
 public class BoardTest extends TestCase {
@@ -63,6 +66,59 @@ public class BoardTest extends TestCase {
         } catch (IllegalArgumentException e) {
             fail("No s'hauria de llançar excepció");
         }
+    }
+
+    public void testInicialitzarCartes() {
+        Board board = new Board(4, 4);
+
+        assertEquals(16, board.getTotalCards());
+
+        // Comprovar que les cartes estan duplicades
+        Map<String, Integer> counts = new HashMap<>();
+        for (Card c : board.getCards()) {
+            counts.put(c.getValue(), counts.getOrDefault(c.getValue(), 0) + 1);
+            assertFalse(c.isFaceUp()); // totes boca avall
+            assertFalse(c.isMatched()); // totes emparellades
+        }
+
+        for (int count : counts.values()) {
+            assertEquals(2, count);
+        }
+    }
+
+    public void testGetCardAt() {
+        Board board = new Board(4, 4);
+
+        // Accedim a una carta dins el rang
+        Card c = board.getCardAt(0, 0);
+        assertNotNull(c);
+
+        // Accedim fora de rang
+        try {
+            board.getCardAt(-1, 0);
+            fail("Falla per fila negativa");
+        } catch (IndexOutOfBoundsException e) {
+
+        }
+
+        try {
+            board.getCardAt(0, 4);
+            fail("Falla per columna fora de rang");
+        } catch (IndexOutOfBoundsException e) {
+
+        }
+    }
+
+    public void testFlipCard() {
+        Board board = new Board(4, 4);
+        Card c = board.getCardAt(0, 0);
+
+        boolean initialState = c.isFaceUp();
+        board.flipCard(0, 0);
+        assertEquals(!initialState, c.isFaceUp());
+
+        board.flipCard(0, 0);
+        assertEquals(initialState, c.isFaceUp());
     }
 
 }
