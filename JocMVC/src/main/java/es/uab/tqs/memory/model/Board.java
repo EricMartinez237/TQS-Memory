@@ -76,14 +76,26 @@ public class Board {
 
     public void flipCard(int row, int col) {
         Card c = getCardAt(row, col);
-        c.flip();
+        if (!c.isMatched()) {
+            c.flip();
+        }
     }
 
     public boolean checkPair(Card c1, Card c2) {
+        if (c1.equals(c2)) {
+            c1.setMatched(true);
+            c2.setMatched(true);
+            return true;
+        }
         return false;
     }
 
     public boolean isComplete() {
-        return false;
+        for (Card c : getCards()) {
+            if (!c.isMatched()) {
+                return false;
+            }
+        }
+        return true;
     }
 }

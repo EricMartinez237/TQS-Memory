@@ -40,4 +40,19 @@ public class Card {
     public boolean matches(Card other) {
         return this.value.equals(other.value);
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Card other = (Card) obj;
+        return value.equals(other.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return value.hashCode();
+    }
 }

@@ -130,31 +130,28 @@ public class BoardTest extends TestCase {
 
         Board board = new Board(2, 2);
 
-        assertFalse(c1.isMatched());
-        assertFalse(c2.isMatched());
-
-        boolean result = board.checkPair(c1, c2);
-        assertTrue(result);
+        // parella igual
+        assertTrue(board.checkPair(c1, c2));
         assertTrue(c1.isMatched());
         assertTrue(c2.isMatched());
 
+        // parella diferent
         assertFalse(board.checkPair(c1, c3));
+        assertFalse(c3.isMatched());
     }
 
     public void testIsComplete() {
-        Card c1 = new Card("A");
-        Card c2 = new Card("A");
-        Card c3 = new Card("B");
-        Card c4 = new Card("B");
-
         Board board = new Board(2, 2);
 
+        // Inicialment no està complet
         assertFalse(board.isComplete());
 
-        board.checkPair(c1, c2);
-        assertFalse(board.isComplete());
+        // marcar totes les cartes com emparellades
+        for (Card card : board.getCards()) {
+            card.setMatched(true);
+        }
 
-        board.checkPair(c3, c4);
+        // Despres hauria d'estar complet
         assertTrue(board.isComplete());
     }
 }
