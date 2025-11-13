@@ -18,6 +18,24 @@ public class BoardTest extends TestCase {
 
         // Comprovar el número total de cartes
         assertEquals("El numero total de cartes hauria de ser 16", rows * cols, board.getTotalCards());
+
+        // Partició equivalent - tamany mínim vàlid(frontera 1x2)
+        Board smallBoard = new Board(1, 2);
+        assertEquals(1, smallBoard.getRows());
+        assertEquals(2, smallBoard.getCols());
+        assertEquals(2, smallBoard.getTotalCards());
+
+        // un altre tamany vàlid
+        Board mediumBoard = new Board(2, 4);
+        assertEquals(2, mediumBoard.getRows());
+        assertEquals(4, mediumBoard.getCols());
+        assertEquals(8, mediumBoard.getTotalCards());
+
+        // Valors limit: Assegurar que les cartes estan boca avall
+        for (Card c : smallBoard.getCards()) {
+            assertFalse(c.isFaceUp());
+            assertFalse(c.isMatched());
+        }
     }
 
     public void testInvalidBoardDimensions() {
@@ -46,6 +64,24 @@ public class BoardTest extends TestCase {
             fail("S'hauria d'haver llençat una excepció per columne negatives");
         } catch (IllegalArgumentException e) {
 
+        }
+
+        try {
+            new Board(3, 3);
+            fail("S'hauria d'haver llençat una excepció per total imparell");
+        } catch (IllegalArgumentException e) {
+        }
+
+        try {
+            new Board(0, 0); // frontera
+            fail("S'hauria d'haver llençat una excepció per files i columnes = 0");
+        } catch (IllegalArgumentException e) {
+        }
+
+        try {
+            new Board(-5, 2); // Ambdós negatius
+            fail("S'hauria d'haver llençat una excepció per files i columnes negatives");
+        } catch (IllegalArgumentException e) {
         }
     }
 
@@ -184,6 +220,13 @@ public class BoardTest extends TestCase {
             // Si no són parella, encara hi ha dues
             assertEquals(2, positions.size());
         }
+
+        // Cas extrem-Emparellar i verificar buit
+        c1 = board.getCardAt(0, 0);
+        c2 = board.getCardAt(1, 1);
+        board.checkPair(c1, c2);
+        positions = board.getFlippedUnmatched();
+        assertTrue(positions.isEmpty());
 
     }
 
