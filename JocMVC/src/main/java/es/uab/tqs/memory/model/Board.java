@@ -100,14 +100,38 @@ public class Board {
     }
 
     public List<int[]> getFlippedUnmatched() {
-        return null;
+        List<int[]> positions = new ArrayList<>();
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                Card card = cards[r][c];
+                if (card.isFaceUp() && !card.isMatched()) {
+                    positions.add(new int[] { r, c });
+                }
+            }
+        }
+        return positions;
     }
 
     public void flipBackUnmatchedCards() {
-
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                Card card = cards[r][c];
+                if (card.isFaceUp() && !card.isMatched()) {
+                    card.flip();
+                }
+            }
+        }
     }
 
     public int getFlippedCount() {
-        return 0;
+        int count = 0;
+        for (int r = 0; r < rows; r++) {
+            for (int c = 0; c < cols; c++) {
+                if (cards[r][c].isFaceUp()) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 }
