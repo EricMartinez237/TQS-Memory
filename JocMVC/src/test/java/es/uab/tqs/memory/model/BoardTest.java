@@ -1,6 +1,5 @@
 package es.uab.tqs.memory.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -153,5 +152,82 @@ public class BoardTest extends TestCase {
 
         // Despres hauria d'estar complet
         assertTrue(board.isComplete());
+    }
+
+    //
+    // Addició de tests per facilitar la implementació de la classe Game
+    // Test per controlar quines cartes estan boca amunt però no emparellades
+    public void testGetFlippedUnmatched() {
+        Board board = new Board(2, 2);
+
+        assertTrue(board.getFlippedUnmatched().isEmpty());
+
+        // voltejar una carta
+        board.flipCard(0, 0);
+        List<int[]> positions = board.getFlippedUnmatched();
+        assertEquals(1, positions.size());
+        assertEquals(0, positions.get(0)[0]);// fila
+        assertEquals(0, positions.get(0)[1]); // columna
+
+        // voltejar segona carta
+        board.flipCard(1, 1);
+        positions = board.getFlippedUnmatched();
+        assertEquals(2, positions.size());
+
+        // Emparellar una carta
+        Card c1 = board.getCardAt(0, 0);
+        Card c2 = board.getCardAt(1, 1);
+        if (board.checkPair(c1, c2)) { // Si són parella, es marcaran com matched
+            positions = board.getFlippedUnmatched();
+            assertTrue(positions.isEmpty());
+        } else {
+            // Si no són parella, encara hi ha dues
+            assertEquals(2, positions.size());
+        }
+
+    }
+
+    // Volteja de nou les cartes boca amunt pero no emparellades
+    public void testFlipBackUnmatchedCards() {
+        Board board = new Board(2, 2);
+
+        // Voltejar dues cartes
+        board.flipCard(0, 0);
+        board.flipCard(1, 1);
+        assertTrue(board.getCardAt(0, 0).isFaceUp());
+        assertTrue(board.getCardAt(1, 1).isFaceUp());
+
+        // Cridar flipBackUnmatchedCards
+        board.flipBackUnmatchedCards();
+        assertFalse(board.getCardAt(0, 0).isFaceUp());
+        assertFalse(board.getCardAt(1, 1).isFaceUp());
+
+        // Si una carta està emparellada, no es volteja
+        board.flipCard(0, 0);
+        board.getCardAt(0, 0).setMatched(true);
+        board.flipCard(1, 1);
+        board.flipBackUnmatchedCards();
+        assertTrue(board.getCardAt(0, 0).isFaceUp()); // Encara voltejada perquè està matched
+        assertFalse(board.getCardAt(1, 1).isFaceUp()); // Voltejada de nou
+    }
+
+    // Test per limitar el nombre de cartes girades a 2
+    public void testGetFlippedCount() {
+        Board board = new Board(2, 2);
+
+        // Inicialment, 0
+        assertEquals(0, board.getFlippedCount());
+
+        // Voltejar una carta
+        board.flipCard(0, 0);
+        assertEquals(1, board.getFlippedCount());
+
+        // Voltejar una altra
+        board.flipCard(1, 1);
+        assertEquals(2, board.getFlippedCount());
+
+        // Emparellar (no afecta el compte de voltejades)
+        board.checkPair(board.getCardAt(0, 0), board.getCardAt(1, 1));
+        assertEquals(2, board.getFlippedCount());
     }
 }

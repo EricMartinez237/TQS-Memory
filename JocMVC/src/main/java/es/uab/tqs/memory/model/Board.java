@@ -98,4 +98,16 @@ public class Board {
         }
         return true;
     }
+
+    public List<int[]> getFlippedUnmatched() {
+        return null;
+    }
+
+    public void flipBackUnmatchedCards() {
+
+    }
+
+    public int getFlippedCount() {
+        return 0;
+    }
 }
