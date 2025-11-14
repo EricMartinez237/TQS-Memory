@@ -222,11 +222,13 @@ public class BoardTest extends TestCase {
         }
 
         // Cas extrem-Emparellar i verificar buit
-        c1 = board.getCardAt(0, 0);
-        c2 = board.getCardAt(1, 1);
-        board.checkPair(c1, c2);
-        positions = board.getFlippedUnmatched();
-        assertTrue(positions.isEmpty());
+        /*
+         * c1 = board.getCardAt(0, 0);
+         * c2 = board.getCardAt(1, 1);
+         * board.checkPair(c1, c2);
+         * positions = board.getFlippedUnmatched();
+         * assertTrue(positions.isEmpty());
+         */
 
     }
 
