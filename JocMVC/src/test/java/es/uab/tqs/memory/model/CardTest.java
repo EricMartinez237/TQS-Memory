@@ -1,6 +1,5 @@
 package es.uab.tqs.memory.model;
 
-import es.uab.tqs.memory.model.Card;
 import junit.framework.TestCase;
 
 public class CardTest extends TestCase {
