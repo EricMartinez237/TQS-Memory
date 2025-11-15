@@ -10,19 +10,27 @@ public class ScoreSystemTest extends TestCase {
         assertEquals("El número inicial d'intents ha de ser 0", 0, scoreSystem.getAttempts());
         assertEquals("Els encerts consecutius inicials han de ser 0", 0, scoreSystem.getConsecutiveSuccesses());
     }
+     // Tests de partició equivalents per addPoints
 
-    public void testAddPoints() {
-        ScoreSystem scoreSystem = new ScoreSystem();
-        
-        scoreSystem.addPoints(10);
-        assertEquals(10, scoreSystem.getPoints());
-        
-        scoreSystem.addPoints(5);
-        assertEquals(15, scoreSystem.getPoints());
-        
-        // Punts negatius
-        scoreSystem.addPoints(-3);
-        assertEquals(12, scoreSystem.getPoints());
+     //Valor positiu
+    public void testAfegirPuntsPositius() {
+        ScoreSystem sistema = new ScoreSystem();
+        sistema.addPoints(10);
+        assertEquals(10, sistema.getPoints());
+    }
+    
+    //Valor 0
+    public void testAfegirPuntsZero() {
+        ScoreSystem sistema = new ScoreSystem();
+        sistema.addPoints(0);
+        assertEquals(0, sistema.getPoints());
+    }
+    
+    //Valor negatiu
+    public void testAfegirPuntsNegatius() {
+        ScoreSystem sistema = new ScoreSystem();
+        sistema.addPoints(-5);
+        assertEquals(0, sistema.getPoints());
     }
 
     public void testIncrementAttempts() {
