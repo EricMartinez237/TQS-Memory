@@ -22,6 +22,39 @@ public class GameTest extends TestCase {
         // Segon flip (hauria de deixar)
         game.flipCard(1, 1);
         assertTrue(board.getCardAt(1, 1).isFaceUp());
+
+        // Tercer flip ja no hauria de deixar
+        game.flipCard(0, 1);
+        assertFalse(board.getCardAt(0, 1).isFaceUp());
+
+        // Valors límits per a flip vàlid(files i columnes)
+        // cantonada superior esquerra
+        game.flipCard(0, 0);
+        assertTrue(board.getCardAt(0, 0).isFaceUp());
+        game.checkTurn();
+
+        // Cantonada superior dreta
+        game.flipCard(1, 0);
+        assertTrue(board.getCardAt(1, 0).isFaceUp());
+        game.checkTurn();
+
+        // Cantonada inferior esquerra
+        game.flipCard(0, 1);
+        assertTrue(board.getCardAt(0, 1).isFaceUp());
+        game.checkTurn();
+
+        // Cantonada inferior dreta
+        game.flipCard(1, 1);
+        assertTrue(board.getCardAt(1, 1).isFaceUp());
+        game.checkTurn();
+
+        // Cas extrem - indexs fora de rang
+        try {
+            game.flipCard(-1, 0);
+            fail("Hauria de fallar per index invalid");
+        } catch (IndexOutOfBoundsException e) {
+        }
+
     }
 
     public void checkTurnAndGameOver() {
@@ -31,6 +64,11 @@ public class GameTest extends TestCase {
         // Simular torn: flip 2 cartes que són parella
         game.flipCard(0, 0);
         game.flipCard(1, 1);
+        game.checkTurn();
+
+        // Segon torn
+        game.flipCard(1, 0);
+        game.flipCard(0, 1);
         game.checkTurn();
 
         // Verificar fi de joc
