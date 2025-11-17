@@ -9,6 +9,9 @@ public class GameTest extends TestCase {
 
         assertNotNull(game);
         assertFalse(game.isGameOver()); // El joc no hauria d'estar acabat al inici
+
+        // Valor limit - 0 flips
+        assertEquals(0, board.getFlippedCount());
     }
 
     public void testFlipCard() {
@@ -57,7 +60,7 @@ public class GameTest extends TestCase {
 
     }
 
-    public void checkTurnAndGameOver() {
+    public void testCheckTurnAndGameOver() {
         Board board = new Board(2, 2);
         Game game = new Game(board);
 
@@ -73,5 +76,16 @@ public class GameTest extends TestCase {
 
         // Verificar fi de joc
         assertTrue(game.isGameOver());
+
+        // Cas extrem - checkTurn sense flips
+        Game game2 = new Game(new Board(2, 2));
+        game2.checkTurn(); // No fa res
+        assertFalse(game2.isGameOver());
+
+        // Valor límit - torn incomplet
+        Game game3 = new Game(new Board(2, 2));
+        game3.flipCard(0, 0);
+        game3.checkTurn();
+        assertEquals(0, board.getFlippedCount()); // Reset
     }
 }
