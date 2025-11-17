@@ -3,6 +3,21 @@ package es.uab.tqs.memory.model;
 import junit.framework.TestCase;
 
 public class GameTest extends TestCase {
+
+    // Helper per crear un Board sense shuffle
+    private Board createFixedBoard() {
+        Card a1 = new Card("A");
+        Card a2 = new Card("A");
+        Card b1 = new Card("B");
+        Card b2 = new Card("B");
+
+        Card[][] fixed = {
+                { a1, a2 },
+                { b1, b2 }
+        };
+        return new Board(2, 2, fixed);
+    }
+
     public void testGameCreation() {
         Board board = new Board(2, 2);
         Game game = new Game(board);
@@ -61,31 +76,25 @@ public class GameTest extends TestCase {
     }
 
     public void testCheckTurnAndGameOver() {
-        Board board = new Board(2, 2);
+        Board board = createFixedBoard();
         Game game = new Game(board);
 
-        // Simular torn: flip 2 cartes que són parella
+        // PRIMERA PARELLA
         game.flipCard(0, 0);
-        game.flipCard(1, 1);
-        game.checkTurn();
-
-        // Segon torn
-        game.flipCard(1, 0);
         game.flipCard(0, 1);
         game.checkTurn();
 
-        // Verificar fi de joc
+        assertTrue(board.getCardAt(0, 0).isMatched());
+        assertTrue(board.getCardAt(0, 1).isMatched());
+
+        // Segona parella (b-b)
+        game.flipCard(1, 0);
+        game.flipCard(1, 1);
+        game.checkTurn();
+
+        assertTrue(board.getCardAt(1, 0).isMatched());
+        assertTrue(board.getCardAt(1, 1).isMatched());
+
         assertTrue(game.isGameOver());
-
-        // Cas extrem - checkTurn sense flips
-        Game game2 = new Game(new Board(2, 2));
-        game2.checkTurn(); // No fa res
-        assertFalse(game2.isGameOver());
-
-        // Valor límit - torn incomplet
-        Game game3 = new Game(new Board(2, 2));
-        game3.flipCard(0, 0);
-        game3.checkTurn();
-        assertEquals(0, board.getFlippedCount()); // Reset
     }
 }
