@@ -18,6 +18,13 @@ public class Board {
         initializeCards();
     }
 
+    // Constructor per evitar aleatorietat(per poder fer bé els tests)
+    public Board(int rows, int cols, Card[][] fixedCards) {
+        this.rows = rows;
+        this.cols = cols;
+        this.cards = fixedCards; // No fem shuffle
+    }
+
     private void validateDimensions(int rows, int cols) {
         if (rows <= 0 || cols <= 0 || (rows * cols) % 2 != 0) {
             throw new IllegalArgumentException(
