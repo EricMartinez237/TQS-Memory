@@ -61,5 +61,8 @@ public class ScoreSystem {
     public void recordFailure() {
         incrementAttempts();
         resetConsecutiveSuccesses();
+
+        //Penalització per error
+         addPoints(-2);
     }
 }
