@@ -25,6 +25,9 @@ public class ScoreSystem {
 
     public void addPoints(int pointsToAdd) {
         this.points += pointsToAdd;
+        if (this.points < 0) {
+        this.points = 0;
+    }
     }
 
     public void incrementAttempts() {
@@ -40,7 +43,9 @@ public class ScoreSystem {
     }
 
     public void recordSuccess() {
-
+        incrementAttempts();
+        incrementConsecutiveSuccesses();
+        addPoints(10);
     }
 
     public void recordFailure() {
