@@ -92,4 +92,78 @@ public class ScoreSystemTest extends TestCase {
         scoreSystem.incrementAttempts();
         assertEquals(2, scoreSystem.getAttempts());
     }
+
+    //Tests de la part d'encerts
+    public void testRecordSuccessAfegeixPunts() {
+        ScoreSystem sistema = new ScoreSystem();
+        int puntsInicials = sistema.getPoints();
+    
+        sistema.recordSuccess();
+    
+        assertTrue("recordSuccess ha d'augmentar la puntuació", sistema.getPoints() > puntsInicials);
+    }
+
+    public void testRecordSuccessDonaPuntsPositius() {
+        ScoreSystem sistema = new ScoreSystem();
+        int puntsInicials = sistema.getPoints();
+    
+        sistema.recordSuccess();
+    
+        assertTrue("recordSuccess ha de donar punts positius", sistema.getPoints() > puntsInicials);
+    }
+
+    public void testMultipleSuccessesDonaMesPunts() {
+        ScoreSystem sistema = new ScoreSystem();
+    
+        sistema.recordSuccess();
+        int puntsDespresPrimer = sistema.getPoints();
+    
+        sistema.recordSuccess();
+        int puntsDespresSegon = sistema.getPoints();
+    
+        int incrementSegon = puntsDespresSegon - puntsDespresPrimer;
+
+        sistema.recordSuccess();
+        int puntsDespresTercer = sistema.getPoints();
+        int incrementTercer = puntsDespresTercer - puntsDespresSegon;
+    
+        assertTrue("Els encerts consecutius han de donar més punts", incrementTercer > incrementSegon);
+    }
+
+    //Tests de la part de fallades
+    public void testRecordFailureRedueixPunts() {
+        ScoreSystem sistema = new ScoreSystem();
+        sistema.addPoints(10); // Posem punts inicials
+        int puntsInicials = sistema.getPoints();
+    
+        sistema.recordFailure();
+    
+        assertTrue("recordFailure ha de reduir la puntuació", sistema.getPoints() < puntsInicials);
+    }
+
+    public void testRecordFailureAfectaLaRatxa() {
+        ScoreSystem sistema = new ScoreSystem();
+    
+        // Dos encerts consecutius per acumular ratxa
+        sistema.recordSuccess();
+        sistema.recordSuccess();
+    
+        // Es trenca la ratxa
+        sistema.recordFailure();
+    
+        // Nou encert després de l'error que ha de donar menys que el segon encert anterior
+        sistema.recordSuccess();
+        int puntsFinal = sistema.getPoints();
+    
+        // Fem el mateix escenari sense errors per comparar
+        ScoreSystem sistemaSenseErrors = new ScoreSystem();
+        sistemaSenseErrors.recordSuccess();
+        sistemaSenseErrors.recordSuccess();
+        sistemaSenseErrors.recordSuccess();
+        int puntsSenseErrors = sistemaSenseErrors.getPoints();
+    
+        // El sistema amb error ha de tenir menys punts que el sense errors
+        assertTrue("Un error ha de reduir la puntuació total respecte a una ratxa sense errors", puntsFinal < puntsSenseErrors);
+    }
+
 }
