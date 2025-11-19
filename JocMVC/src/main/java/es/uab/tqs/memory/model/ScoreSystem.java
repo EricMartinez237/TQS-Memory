@@ -45,14 +45,18 @@ public class ScoreSystem {
     public void recordSuccess() {
         incrementAttempts();
         incrementConsecutiveSuccesses();
-        int punts = 10; // Punts base
     
-        if (consecutiveSuccesses >= 2) {
-            punts = 15; // Punts amb bonus
+        int puntsBase = 10;
+        int bonus = 0;
+
+        //Bonus amb increment: Per cada encert consecutiu sumem punts base + 5 punts per encert
+        if (consecutiveSuccesses > 1) {
+            bonus = 5 * (consecutiveSuccesses - 1);
         }
     
-        addPoints(punts);
-        }
+        addPoints(puntsBase + bonus);
+    }
+
 
     public void recordFailure() {
         incrementAttempts();
