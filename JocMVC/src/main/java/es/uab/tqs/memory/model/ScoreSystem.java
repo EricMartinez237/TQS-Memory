@@ -38,4 +38,12 @@ public class ScoreSystem {
     public void resetConsecutiveSuccesses() {
         this.consecutiveSuccesses = 0;
     }
+
+    public void recordSuccess() {
+
+    }
+
+    public void recordFailure() {
+
+    }
 }
