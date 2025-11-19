@@ -166,4 +166,37 @@ public class ScoreSystemTest extends TestCase {
         assertTrue("Un error ha de reduir la puntuació total respecte a una ratxa sense errors", puntsFinal < puntsSenseErrors);
     }
 
+    // Test de frontera per a múltiples errors consecutius
+    public void testMultipleFailuresPenalitzenIgual() {
+        ScoreSystem sistema = new ScoreSystem();
+        sistema.addPoints(20);
+    
+        sistema.recordFailure();
+        int puntsDespresPrimerError = sistema.getPoints();
+    
+        sistema.recordFailure();
+        int puntsDespresSegonError = sistema.getPoints();
+    
+        int penalitzacioPrimer = 20 - puntsDespresPrimerError;
+        int penalitzacioSegon = puntsDespresPrimerError - puntsDespresSegonError;
+    
+        // Verifiquem que les penalitzacions són iguals sense saber el valor exacte
+        assertEquals("Els errors consecutius han de penalitzar igual",  penalitzacioPrimer, penalitzacioSegon);
+    }
+
+    // Test de frontera per a punts negatius amb varies fallades
+    public void testMultiplesErradesNoProvoquenNegatiu() {
+        ScoreSystem sistema = new ScoreSystem();
+        sistema.addPoints(5);
+    
+        // Forcem múltiples errors fins assegurar que arribem al límit
+        for (int i = 0; i < 10; i++) {
+            sistema.recordFailure();
+        }
+    
+        // Verifiquem si el comportament és correcte
+        assertTrue("Els errors no poden deixar punts negatius", sistema.getPoints() >= 0);
+    }
+
+
 }
