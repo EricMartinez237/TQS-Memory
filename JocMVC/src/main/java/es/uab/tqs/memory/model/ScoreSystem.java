@@ -45,10 +45,17 @@ public class ScoreSystem {
     public void recordSuccess() {
         incrementAttempts();
         incrementConsecutiveSuccesses();
-        addPoints(10);
-    }
+        int punts = 10; // Punts base
+    
+        if (consecutiveSuccesses >= 2) {
+            punts = 15; // Punts amb bonus
+        }
+    
+        addPoints(punts);
+        }
 
     public void recordFailure() {
-
+        incrementAttempts();
+        resetConsecutiveSuccesses();
     }
 }
