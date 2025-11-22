@@ -1,13 +1,15 @@
 package es.uab.tqs.memory;
 
 //import junit.framework.Test;
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
 //import junit.framework.TestSuite;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest extends TestCase {
+public class AppTest {
     /**
      * Create the test case
      *

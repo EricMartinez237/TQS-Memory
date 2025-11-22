@@ -12,6 +12,10 @@ public class Game {
         this.flippedThisTurn = 0;
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
     public void flipCard(int row, int col) {
         if (canFlip(row, col)) {
             board.flipCard(row, col);

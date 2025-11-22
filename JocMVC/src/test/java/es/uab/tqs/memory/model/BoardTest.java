@@ -4,20 +4,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class BoardTest extends TestCase {
+public class BoardTest {
 
+    @Test
     public void testBoardCreation() {
         int rows = 4;
         int cols = 4;
         Board board = new Board(rows, cols);
 
-        assertEquals("El numero de files ha de ser 4", rows, board.getRows());
-        assertEquals("El numero de columnes ha de ser 4", cols, board.getCols());
+        assertEquals(rows, board.getRows(), "El numero de files ha de ser 4");
+        assertEquals(cols, board.getCols(), "El numero de columnes ha de ser 4");
 
         // Comprovar el número total de cartes
-        assertEquals("El numero total de cartes hauria de ser 16", rows * cols, board.getTotalCards());
+        assertEquals(rows * cols, board.getTotalCards(), "El numero total de cartes hauria de ser 16");
 
         // Partició equivalent - tamany mínim vàlid(frontera 1x2)
         Board smallBoard = new Board(1, 2);
@@ -38,6 +40,7 @@ public class BoardTest extends TestCase {
         }
     }
 
+    @Test
     public void testInvalidBoardDimensions() {
         try {
             new Board(0, 4);
@@ -85,12 +88,14 @@ public class BoardTest extends TestCase {
         }
     }
 
+    @Test
     public void testTotalCardsDifferentSize() {
         Board board = new Board(2, 3);
-        assertEquals("El numero total de cartes hauria de ser 6", 6, board.getTotalCards());
+        assertEquals(6, board.getTotalCards(), "El numero total de cartes hauria de ser 6");
 
     }
 
+    @Test
     public void testOddTotalCards() {
         try {
             new Board(3, 3);
@@ -105,6 +110,7 @@ public class BoardTest extends TestCase {
         }
     }
 
+    @Test
     public void testInicialitzarCartes() {
         Board board = new Board(4, 4);
 
@@ -123,6 +129,7 @@ public class BoardTest extends TestCase {
         }
     }
 
+    @Test
     public void testGetCardAt() {
         Board board = new Board(4, 4);
 
@@ -146,6 +153,7 @@ public class BoardTest extends TestCase {
         }
     }
 
+    @Test
     public void testFlipCard() {
         Board board = new Board(4, 4);
         Card c = board.getCardAt(0, 0);
@@ -158,6 +166,7 @@ public class BoardTest extends TestCase {
         assertEquals(initialState, c.isFaceUp());
     }
 
+    @Test
     public void testCheckPair() {
         Card c1 = new Card("A");
         Card c2 = new Card("A");
@@ -175,6 +184,7 @@ public class BoardTest extends TestCase {
         assertFalse(c3.isMatched());
     }
 
+    @Test
     public void testIsComplete() {
         Board board = new Board(2, 2);
 
@@ -193,6 +203,7 @@ public class BoardTest extends TestCase {
     //
     // Addició de tests per facilitar la implementació de la classe Game
     // Test per controlar quines cartes estan boca amunt però no emparellades
+    @Test
     public void testGetFlippedUnmatched() {
         Board board = new Board(2, 2);
 
@@ -233,6 +244,7 @@ public class BoardTest extends TestCase {
     }
 
     // Volteja de nou les cartes boca amunt pero no emparellades
+    @Test
     public void testFlipBackUnmatchedCards() {
         Board board = new Board(2, 2);
 
@@ -257,6 +269,7 @@ public class BoardTest extends TestCase {
     }
 
     // Test per limitar el nombre de cartes girades a 2
+    @Test
     public void testGetFlippedCount() {
         Board board = new Board(2, 2);
 

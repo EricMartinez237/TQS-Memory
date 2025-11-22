@@ -1,8 +1,9 @@
 package es.uab.tqs.memory.model;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class GameTest extends TestCase {
+public class GameTest {
 
     // Helper per crear un Board sense shuffle
     private Board createFixedBoard() {
@@ -18,6 +19,7 @@ public class GameTest extends TestCase {
         return new Board(2, 2, fixed);
     }
 
+    @Test
     public void testGameCreation() {
         Board board = new Board(2, 2);
         Game game = new Game(board);
@@ -29,6 +31,7 @@ public class GameTest extends TestCase {
         assertEquals(0, board.getFlippedCount());
     }
 
+    @Test
     public void testFlipCard() {
         Board board = new Board(2, 2);
         Game game = new Game(board);
@@ -75,6 +78,7 @@ public class GameTest extends TestCase {
 
     }
 
+    @Test
     public void testCheckTurnAndGameOver() {
         Board board = createFixedBoard();
         Game game = new Game(board);
