@@ -11,7 +11,7 @@ public class InitState implements GameState {
 
     @Override
     public GameState startGame() {
-        return this;
+        return new PlayingState(game);
     }
 
     @Override

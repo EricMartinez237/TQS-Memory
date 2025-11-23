@@ -1,7 +1,5 @@
 package es.uab.tqs.memory.controller;
 
-import es.uab.tqs.memory.model.Game;
-
 public class GameOverState implements GameState {
     @Override
     public GameState startGame() {

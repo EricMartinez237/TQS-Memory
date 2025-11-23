@@ -16,16 +16,21 @@ public class PlayingState implements GameState {
 
     @Override
     public GameState flipCard(int row, int col) {
+        game.flipCard(row, col);
         return this;
     }
 
     @Override
     public GameState checkTurn() {
+        game.checkTurn();
+        if (game.isGameOver()) {
+            return new GameOverState();
+        }
         return this;
     }
 
     @Override
     public boolean isGameOver() {
-        return false;
+        return game.isGameOver();
     }
 }

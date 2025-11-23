@@ -39,20 +39,23 @@ public class GameControllerTest {
         controller.startGame();
         controller.checkTurn();
 
-        assertTrue(controller.isGameOver());
         verify(game).isGameOver();
+        assertTrue(controller.isGameOver());
     }
 
     // getCardAt ha de delegar la crida a getCardAt de game
     @Test
     public void testGetCardAtDelegatesToGame() {
         Game game = mock(Game.class);
+        Board board = mock(Board.class);
         Card mockCard = mock(Card.class);
-        when(game.getBoard().getCardAt(0, 0)).thenReturn(mockCard);
+
+        when(game.getBoard()).thenReturn(board);
+        when(board.getCardAt(0, 0)).thenReturn(mockCard);
 
         GameController controller = new GameController(game);
 
         assertEquals(mockCard, controller.getCardAt(0, 0));
-        verify(game).getBoard().getCardAt(0, 0);
+        verify(board).getCardAt(0, 0);
     }
 }
