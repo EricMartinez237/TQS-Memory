@@ -1,0 +1,234 @@
+package es.uab.tqs.memory.view;
+
+import es.uab.tqs.memory.model.Board;
+import es.uab.tqs.memory.model.Card;
+import es.uab.tqs.memory.model.Game;
+import es.uab.tqs.memory.model.ScoreSystem;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+
+public class MemoryGUI extends JFrame {
+    private Game game;
+    private ScoreSystem scoreSystem;
+    private JButton[][] cardButtons;
+    private JLabel statusLabel;
+    private JLabel scoreLabel;
+    private JLabel attemptsLabel;
+    private JLabel consecutiveLabel;
+    private JPanel boardPanel;
+    private JPanel controlPanel;
+    
+    // Colors per a la interfície
+    private final Color CARD_BACK_COLOR = new Color(70, 130, 180); // Steel blue
+    private final Color CARD_FRONT_COLOR = Color.WHITE;
+    private final Color MATCHED_COLOR = new Color(144, 238, 144); // Light green
+    private final Color BORDER_COLOR = new Color(100, 100, 100);
+    
+    // Mides
+    private final int CARD_WIDTH = 80;
+    private final int CARD_HEIGHT = 100;
+    private final Font CARD_FONT = new Font("SansSerif", Font.BOLD, 20);
+    private final Font STATUS_FONT = new Font("SansSerif", Font.BOLD, 16);
+    
+    public MemoryGUI(Game game, ScoreSystem scoreSystem) {
+        this.game = game;
+        this.scoreSystem = scoreSystem;
+        initializeGUI();
+    }
+    
+    private void initializeGUI() {
+        setTitle("Memory Game");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+        
+        // Crear els components principals
+        createControlPanel();
+        createBoardPanel();
+        
+        // Afegir components a la finestra
+        add(controlPanel, BorderLayout.NORTH);
+        add(boardPanel, BorderLayout.CENTER);
+        
+        // Configurar finestra
+        pack();
+        setLocationRelativeTo(null); // Centrar a la pantalla
+        setResizable(false);
+    }
+    
+    private void createControlPanel() {
+        controlPanel = new JPanel(new GridLayout(2, 1));
+        controlPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        controlPanel.setBackground(new Color(240, 240, 240));
+        
+        // Panel d'estat
+        JPanel statusPanel = new JPanel(new FlowLayout());
+        statusLabel = new JLabel("Torn: Selecciona dues cartes");
+        statusLabel.setFont(STATUS_FONT);
+        statusPanel.add(statusLabel);
+        
+        // Panel d'informació de puntuació
+        JPanel infoPanel = new JPanel(new GridLayout(1, 3, 10, 0));
+        
+        scoreLabel = new JLabel("Punts: 0", JLabel.CENTER);
+        attemptsLabel = new JLabel("Intents: 0", JLabel.CENTER);
+        consecutiveLabel = new JLabel("Encerts consecutius: 0", JLabel.CENTER);
+        
+        // Estilitzar les etiquetes d'informació
+        Font infoFont = new Font("SansSerif", Font.BOLD, 14);
+        scoreLabel.setFont(infoFont);
+        attemptsLabel.setFont(infoFont);
+        consecutiveLabel.setFont(infoFont);
+        
+        scoreLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        attemptsLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        consecutiveLabel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        
+        scoreLabel.setOpaque(true);
+        attemptsLabel.setOpaque(true);
+        consecutiveLabel.setOpaque(true);
+        
+        scoreLabel.setBackground(Color.WHITE);
+        attemptsLabel.setBackground(Color.WHITE);
+        consecutiveLabel.setBackground(Color.WHITE);
+        
+        infoPanel.add(scoreLabel);
+        infoPanel.add(attemptsLabel);
+        infoPanel.add(consecutiveLabel);
+        
+        controlPanel.add(statusPanel);
+        controlPanel.add(infoPanel);
+    }
+    
+    private void createBoardPanel() {
+        Board board = game.getBoard();
+        int rows = board.getRows();
+        int cols = board.getCols();
+        
+        boardPanel = new JPanel(new GridLayout(rows, cols, 5, 5));
+        boardPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        boardPanel.setBackground(new Color(220, 220, 220));
+        
+        cardButtons = new JButton[rows][cols];
+        
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                JButton cardButton = createCardButton();
+                cardButtons[row][col] = cardButton;
+                boardPanel.add(cardButton);
+            }
+        }
+    }
+    
+    private JButton createCardButton() {
+        JButton button = new JButton();
+        button.setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
+        button.setBackground(CARD_BACK_COLOR);
+        button.setBorder(BorderFactory.createLineBorder(BORDER_COLOR, 2));
+        button.setFont(CARD_FONT);
+        button.setFocusPainted(false);
+        
+        // Text inicial (carta tapada)
+        button.setText("?");
+        button.setForeground(Color.WHITE);
+        
+        return button;
+    }
+    
+    // Mètodes públics per a que el controller pugui actualitzar la vista
+    
+    public void updateCard(int row, int col, Card card) {
+        JButton button = cardButtons[row][col];
+        
+        if (card.isMatched()) {
+            // Carta emparellada
+            button.setBackground(MATCHED_COLOR);
+            button.setForeground(Color.BLACK);
+            button.setText(card.getValue());
+            button.setEnabled(false);
+        } else if (card.isFaceUp()) {
+            // Carta girada (no emparellada encara)
+            button.setBackground(CARD_FRONT_COLOR);
+            button.setForeground(Color.BLACK);
+            button.setText(card.getValue());
+        } else {
+            // Carta tapada
+            button.setBackground(CARD_BACK_COLOR);
+            button.setForeground(Color.WHITE);
+            button.setText("?");
+            button.setEnabled(true);
+        }
+    }
+    
+    public void updateScoreInfo() {
+        scoreLabel.setText("Punts: " + scoreSystem.getPoints());
+        attemptsLabel.setText("Intents: " + scoreSystem.getAttempts());
+        consecutiveLabel.setText("Encerts consecutius: " + scoreSystem.getConsecutiveSuccesses());
+    }
+    
+    public void setStatusMessage(String message) {
+        statusLabel.setText(message);
+    }
+    
+    public void addCardListener(int row, int col, ActionListener listener) {
+        cardButtons[row][col].addActionListener(listener);
+    }
+    
+    public void disableCard(int row, int col) {
+        cardButtons[row][col].setEnabled(false);
+    }
+    
+    public void enableAllCards() {
+        Board board = game.getBoard();
+        for (int row = 0; row < board.getRows(); row++) {
+            for (int col = 0; col < board.getCols(); col++) {
+                if (!board.getCardAt(row, col).isMatched()) {
+                    cardButtons[row][col].setEnabled(true);
+                }
+            }
+        }
+    }
+    
+    public void disableAllCards() {
+        for (int row = 0; row < cardButtons.length; row++) {
+            for (int col = 0; col < cardButtons[row].length; col++) {
+                cardButtons[row][col].setEnabled(false);
+            }
+        }
+    }
+    
+    public void showGameOverMessage() {
+        String message = String.format(
+            "¡Joc acabat!\n\nPuntuació final:\n" +
+            "Punts: %d\n" +
+            "Intents: %d\n" +
+            "Encerts consecutius màxims: %d",
+            scoreSystem.getPoints(),
+            scoreSystem.getAttempts(),
+            scoreSystem.getConsecutiveSuccesses()
+        );
+        
+        JOptionPane.showMessageDialog(this, message, "Joc Acabat", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public void resetBoard() {
+        Board board = game.getBoard();
+        for (int row = 0; row < board.getRows(); row++) {
+            for (int col = 0; col < board.getCols(); col++) {
+                updateCard(row, col, board.getCardAt(row, col));
+            }
+        }
+        updateScoreInfo();
+        setStatusMessage("Nou joc! Selecciona dues cartes");
+    }
+    
+    // Mètode per obtenir les dimensions del tauler (útil per al controller)
+    public int getBoardRows() {
+        return game.getBoard().getRows();
+    }
+    
+    public int getBoardCols() {
+        return game.getBoard().getCols();
+    }
+}
