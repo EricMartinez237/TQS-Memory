@@ -6,6 +6,7 @@ public class Game {
 
     private Board board;
     private int flippedThisTurn;
+    private ScoreSystem scoreSystem = new ScoreSystem();
 
     public Game(Board board) {
         this.board = board;
@@ -14,6 +15,10 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+
+    public ScoreSystem getScoreSystem() {
+        return scoreSystem;
     }
 
     public void flipCard(int row, int col) {
@@ -35,7 +40,14 @@ public class Game {
             if (flipped.size() == 2) {
                 Card c1 = board.getCardAt(flipped.get(0)[0], flipped.get(0)[1]);
                 Card c2 = board.getCardAt(flipped.get(1)[0], flipped.get(1)[1]);
-                board.checkPair(c1, c2);
+
+                boolean success = board.checkPair(c1, c2);
+
+                if (success) {
+                    scoreSystem.recordSuccess();
+                } else {
+                    scoreSystem.recordFailure();
+                }
             }
         }
         board.flipBackUnmatchedCards();
