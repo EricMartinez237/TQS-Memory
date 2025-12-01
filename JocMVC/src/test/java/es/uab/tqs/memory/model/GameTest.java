@@ -79,6 +79,26 @@ public class GameTest {
     }
 
     @Test
+    public void testCannotFlipAlreadyMatchedCard() {
+        Board board = createFixedBoard();
+        Game game = new Game(board);
+        Card cardA1 = board.getCardAt(0, 0);
+
+        game.flipCard(0, 0);
+        game.flipCard(0, 1);
+        game.checkTurn();
+
+        assertTrue(cardA1.isMatched());
+        assertEquals(2, board.getFlippedCount());
+        game.flipCard(0, 0);
+
+        assertEquals(2, board.getFlippedCount());
+
+        game.flipCard(1, 0);
+        assertEquals(3, board.getFlippedCount());
+    }
+
+    @Test
     public void testCheckTurnAndGameOver() {
         Board board = createFixedBoard();
         Game game = new Game(board);

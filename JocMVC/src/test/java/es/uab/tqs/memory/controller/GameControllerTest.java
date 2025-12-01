@@ -43,6 +43,21 @@ public class GameControllerTest {
         assertTrue(controller.isGameOver());
     }
 
+    @Test
+    public void testCheckTurnStaysInPlayingStateIfNotOver() {
+        Game game = mock(Game.class);
+        when(game.isGameOver()).thenReturn(false);
+
+        GameController controller = new GameController(game);
+        controller.startGame();
+
+        controller.checkTurn();
+
+        verify(game).checkTurn();
+
+        assertFalse(controller.isGameOver());
+    }
+
     // getCardAt ha de delegar la crida a getCardAt de game
     @Test
     public void testGetCardAtDelegatesToGame() {
