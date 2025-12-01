@@ -9,7 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class MemoryGUI extends JFrame {
+public class MemoryView extends JFrame {
     private Game game;
     private ScoreSystem scoreSystem;
     private JButton[][] cardButtons;
@@ -32,7 +32,7 @@ public class MemoryGUI extends JFrame {
     private final Font CARD_FONT = new Font("SansSerif", Font.BOLD, 20);
     private final Font STATUS_FONT = new Font("SansSerif", Font.BOLD, 16);
     
-    public MemoryGUI(Game game, ScoreSystem scoreSystem) {
+    public MemoryView(Game game, ScoreSystem scoreSystem) {
         this.game = game;
         this.scoreSystem = scoreSystem;
         initializeGUI();
