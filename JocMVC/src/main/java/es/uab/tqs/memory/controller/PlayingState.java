@@ -1,12 +1,18 @@
 package es.uab.tqs.memory.controller;
 
 import es.uab.tqs.memory.model.Game;
+import es.uab.tqs.memory.model.ScoreSystem;
+import es.uab.tqs.memory.view.MemoryView;
 
 public class PlayingState implements GameState {
     private final Game game;
-
-    public PlayingState(Game game) {
+    private final ScoreSystem scoreSystem;
+    private final MemoryView view;
+    
+    public PlayingState(Game game, ScoreSystem scoreSystem, MemoryView view) {
         this.game = game;
+        this.scoreSystem = scoreSystem;
+        this.view = view;
     }
 
     @Override
