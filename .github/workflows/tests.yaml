@@ -4,10 +4,12 @@ on:
     branches:
       - main
       - test-dependencies
+      - app
   pull_request:
     branches:
       - main
       - test-dependencies
+      - app
 
 jobs:
   tests:
