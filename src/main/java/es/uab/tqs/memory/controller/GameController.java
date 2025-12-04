@@ -6,6 +6,7 @@ import es.uab.tqs.memory.model.ScoreSystem;
 import es.uab.tqs.memory.view.MemoryView;
 
 
+
 public class GameController {
     private GameState state;
     private final Game game;
@@ -38,4 +39,17 @@ public class GameController {
     public Card getCardAt(int row, int col) {
         return game.getBoard().getCardAt(row, col);
     }
+
+    public Game getGame() {
+        return this.game;
+    }
+
+    public ScoreSystem getScoreSystem() {
+        return this.scoreSystem;
+    }
+
+    public MemoryView getView() {
+        return this.view;
+    }
+
 }

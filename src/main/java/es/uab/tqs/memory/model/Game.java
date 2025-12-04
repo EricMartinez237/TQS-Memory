@@ -13,6 +13,12 @@ public class Game {
         this.flippedThisTurn = 0;
     }
 
+    public Game(Board board, ScoreSystem scoreSystem) {
+        this.board = board;
+        this.scoreSystem = scoreSystem;
+        this.flippedThisTurn = 0;
+    }
+
     public Board getBoard() {
         return board;
     }
@@ -26,6 +32,10 @@ public class Game {
             board.flipCard(row, col);
             flippedThisTurn++;
         }
+    }
+
+    public int getFlippedCount() {
+        return flippedThisTurn;
     }
 
     // Helper petit per validar

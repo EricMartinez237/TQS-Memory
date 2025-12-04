@@ -231,4 +231,8 @@ public class MemoryView extends JFrame {
     public int getBoardCols() {
         return game.getBoard().getCols();
     }
+
+    public Game getGame() {
+        return this.game;
+    }
 }
