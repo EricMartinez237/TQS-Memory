@@ -75,7 +75,14 @@ public class GameController {
     } 
 
     public void handleCardClick(int row, int col) { 
-
+       
+        game.flipCard(row, col); 
+        Card clickedCard = game.getBoard().getCardAt(row, col);
+        view.updateCard(row, col, clickedCard);
+    
+        if (game.getFlippedCount() == 1) { 
+            view.setStatusMessage("Tria la segona carta.");
+        }
     }
 
 }
