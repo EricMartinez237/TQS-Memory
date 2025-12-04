@@ -3,9 +3,11 @@ on:
   push: 
     branches:
       - main
+      - test-dependencies
   pull_request:
     branches:
       - main
+      - test-dependencies
 
 jobs:
   tests:
