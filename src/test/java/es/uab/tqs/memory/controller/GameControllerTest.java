@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import java.awt.event.ActionListener;
 import javax.swing.text.View;
 
 public class GameControllerTest {
@@ -84,5 +85,23 @@ public class GameControllerTest {
 
         assertEquals(mockCard, controller.getCardAt(0, 0));
         verify(board).getCardAt(0, 0);
+    }
+
+    //Comprova que initializeCardListeners ha fet la seva feina: 4 crides a addCardListener
+    @Test
+    public void testStartInteractionLoopInitializesGUIAndListeners() {
+        Game game = mock(Game.class);
+        ScoreSystem scoreSystem = mock(ScoreSystem.class);
+        MemoryView view = mock(MemoryView.class);
+        when(view.getBoardRows()).thenReturn(2); 
+        when(view.getBoardCols()).thenReturn(2);
+    
+        GameController controller = new GameController(game, scoreSystem, view);
+        controller.startInteractionLoop(); 
+
+        verify(view).setVisible(true);
+        verify(view).resetBoard();
+        verify(view).setStatusMessage(eq("Joc en marxa! Tria la primera carta."));
+        verify(view, times(4)).addCardListener(anyInt(), anyInt(), any(ActionListener.class));  
     }
 }

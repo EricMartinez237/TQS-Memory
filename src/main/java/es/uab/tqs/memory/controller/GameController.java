@@ -52,4 +52,16 @@ public class GameController {
         return this.view;
     }
 
+    public void startInteractionLoop() {
+
+    }
+
+    public void initializeCardListeners() {
+
+    } 
+    
+    public void handleCardClick(int row, int col) { 
+
+    }
+
 }
