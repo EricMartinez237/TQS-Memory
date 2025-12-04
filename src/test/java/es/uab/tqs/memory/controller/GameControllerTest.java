@@ -104,4 +104,27 @@ public class GameControllerTest {
         verify(view).setStatusMessage(eq("Joc en marxa! Tria la primera carta."));
         verify(view, times(4)).addCardListener(anyInt(), anyInt(), any(ActionListener.class));  
     }
+
+    //Comrpova que flipCard es treballa a Model i s'actualitza la vista
+    @Test
+    public void testHandleCardClickFirstFlip() {
+        Game game = mock(Game.class);
+        ScoreSystem scoreSystem = mock(ScoreSystem.class);
+        MemoryView view = mock(MemoryView.class);
+        Board board = mock(Board.class);
+        Card mockCard = mock(Card.class);
+    
+        when(game.getBoard()).thenReturn(board);
+        when(board.getCardAt(0, 0)).thenReturn(mockCard);
+    
+        when(game.getFlippedCount()).thenReturn(1); 
+    
+        GameController controller = new GameController(game, scoreSystem, view);
+
+        controller.handleCardClick(0, 0);
+        verify(game).flipCard(0, 0);
+        verify(view).updateCard(eq(0), eq(0), eq(mockCard));
+        verify(view).setStatusMessage(eq("Tria la segona carta."));
+        verify(view, never()).disableAllCards();
+    }
 }
