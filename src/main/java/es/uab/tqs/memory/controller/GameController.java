@@ -53,13 +53,27 @@ public class GameController {
     }
 
     public void startInteractionLoop() {
-
+        view.setVisible(true);
+        view.resetBoard();
+        initializeCardListeners(); 
+        view.setStatusMessage("Joc en marxa! Tria la primera carta.");
     }
 
-    public void initializeCardListeners() {
+    private void initializeCardListeners() {
+        int rows = view.getBoardRows();
+        int cols = view.getBoardCols();
+
+        for (int row = 0; row < rows; row++) {
+            for (int col = 0; col < cols; col++) {
+                final int r = row;
+                final int c = col;
+            
+                view.addCardListener(row, col, e -> handleCardClick(r, c));
+            }
+        }
 
     } 
-    
+
     public void handleCardClick(int row, int col) { 
 
     }
