@@ -5,6 +5,9 @@ import es.uab.tqs.memory.model.Card;
 import es.uab.tqs.memory.model.ScoreSystem;
 import es.uab.tqs.memory.view.MemoryView;
 
+import java.awt.event.ActionEvent; // Per gestionar esdeveniments del Timer
+import java.awt.event.ActionListener; // Per gestionar els clics dels botons
+import javax.swing.Timer; // Per crear un retard sense bloquejar la GUI
 
 
 public class GameController {
@@ -80,7 +83,35 @@ public class GameController {
         Card clickedCard = game.getBoard().getCardAt(row, col);
         view.updateCard(row, col, clickedCard);
     
-        if (game.getFlippedCount() == 1) { 
+        if (game.getFlippedCount() == 2) {
+
+            view.disableAllCards();
+            view.setStatusMessage("Veient resultat...");
+
+            // Timer per esperar 1 segon (1000ms)
+            Timer timer = new Timer(1000, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                
+                    game.checkTurn(); 
+                
+                    view.resetBoard(); 
+                    view.updateScoreInfo(); 
+                
+                    if (game.isGameOver()) {
+                        view.showGameOverMessage();
+                    } else {
+                        view.enableAllCards(); 
+                        view.setStatusMessage("Torn resolt. Tria la primera carta.");
+                    }
+                
+                    ((Timer)evt.getSource()).stop(); 
+                }
+            });
+            timer.setRepeats(false); 
+            timer.start();
+    
+        } else if (game.getFlippedCount() == 1) {
             view.setStatusMessage("Tria la segona carta.");
         }
     }
