@@ -105,7 +105,7 @@ public class GameControllerTest {
         verify(view, times(4)).addCardListener(anyInt(), anyInt(), any(ActionListener.class));  
     }
 
-    //Comrpova que flipCard es treballa a Model i s'actualitza la vista
+    //Comrpova que flipCard es treballa a Model i s'actualitza la vista (primer flip)
     @Test
     public void testHandleCardClickFirstFlip() {
         Game game = mock(Game.class);
@@ -126,5 +126,29 @@ public class GameControllerTest {
         verify(view).updateCard(eq(0), eq(0), eq(mockCard));
         verify(view).setStatusMessage(eq("Tria la segona carta."));
         verify(view, never()).disableAllCards();
+    }
+
+    //Comrpova que flipCard es treballa a Model i s'actualitza la vista (segon flip)
+    @Test
+    public void testHandleCardClickSecondFlipStartsTimerLogic() {
+        Game game = mock(Game.class);
+        ScoreSystem scoreSystem = mock(ScoreSystem.class);
+        MemoryView view = mock(MemoryView.class);
+        Board board = mock(Board.class);
+        Card mockCard = mock(Card.class);
+    
+        when(game.getBoard()).thenReturn(board);
+        when(board.getCardAt(1, 1)).thenReturn(mockCard);
+    
+        // Afirmem que es gira la segona carta del torn
+        when(game.getFlippedCount()).thenReturn(2); 
+    
+        GameController controller = new GameController(game, scoreSystem, view);
+        controller.handleCardClick(1, 1);
+
+        verify(game).flipCard(1, 1);
+        verify(view).updateCard(eq(1), eq(1), eq(mockCard));
+        verify(view).disableAllCards();
+        verify(view).setStatusMessage(eq("Veient resultat..."));
     }
 }
