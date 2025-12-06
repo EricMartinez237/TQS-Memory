@@ -16,6 +16,7 @@ public class AppTest {
     @Test
     public void testAlwaysFails(){
         fail("Aquest test ha de fallar");
+        assertEquals(1,2);
     }
 
 
