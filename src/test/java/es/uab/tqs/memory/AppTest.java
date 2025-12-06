@@ -13,12 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AppTest {
 
-    @Test
-    public void testAlwaysFails(){
-        fail("Aquest test ha de fallar");
-        assertEquals(1,2);
-    }
-
 
     @Test
     public void testGameControllerIsWiredCorrectly() {
