@@ -1,4 +1,4 @@
-package test.java.es.uab.tqs.memory;
+package es.uab.tqs.memory;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +12,7 @@ import es.uab.tqs.memory.view.MemoryView;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AppTest {
+
 
     @Test
     public void testGameControllerIsWiredCorrectly() {
